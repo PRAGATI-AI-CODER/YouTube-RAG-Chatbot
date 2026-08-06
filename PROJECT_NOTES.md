@@ -426,3 +426,117 @@ Without overlap, important information can be split across chunk boundaries and 
 ## Output
 
 The transcript was successfully divided into multiple chunks that are ready for embedding.
+
+
+# Day 2 - Embeddings
+
+## What is an Embedding?
+
+An embedding is a numerical vector representation of text that captures semantic meaning.
+
+---
+
+## Why are Embeddings Needed?
+
+Keyword search matches words.
+
+Embeddings enable semantic search by matching meaning.
+
+---
+
+## Workflow
+
+Transcript
+
+↓
+
+Chunks
+
+↓
+
+Embedding Model
+
+↓
+
+Vectors
+
+↓
+
+Vector Database
+
+---
+
+## Embedding Model Used
+
+GoogleGenerativeAIEmbeddings
+
+Model:
+
+models/gemini-embedding-001
+
+
+# Embeddings - Key Takeaways
+
+## What is an Embedding?
+
+An embedding is a fixed-length numerical vector that represents the semantic meaning of a piece of text.
+
+---
+
+## Model Used
+
+GoogleGenerativeAIEmbeddings
+
+Model:
+
+models/gemini-embedding-001
+
+---
+
+## Embedding Dimension
+
+3072
+
+---
+
+## Why are Embeddings Useful?
+
+Embeddings allow semantic search instead of keyword matching.
+
+Chunks with similar meanings have vectors that are close together in the embedding space.
+
+---
+
+## Important Methods
+
+embed_query()
+
+Converts a single query or piece of text into an embedding.
+
+embed_documents()
+
+Converts multiple documents/chunks into embeddings.
+
+Used when indexing documents in a vector database.
+
+## Refactoring
+
+### Why Refactor?
+
+To follow the Single Responsibility Principle.
+
+### Responsibilities
+
+transcript.py
+
+- Fetch transcript
+
+chunking.py
+
+- Split transcript into chunks
+
+embeddings.py
+
+- Generate embeddings
+
+Each module should perform one task and expose reusable functions.
