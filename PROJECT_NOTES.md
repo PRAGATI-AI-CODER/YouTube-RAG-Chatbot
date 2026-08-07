@@ -1,5 +1,18 @@
 # 📘 YouTube RAG Chatbot – Learning Notes
 
+# Table of Contents
+
+- Project Information
+- Tech Stack
+- Day 1 - Environment Setup
+- Day 1 - Git Setup
+- Day 1 - Gemini API
+- Day 1 - Transcript Extraction
+- Day 2 - Chunking
+- Day 2 - Embeddings
+- Day 3 - FAISS Vector Store
+
+
 ---
 
 # Project Information
@@ -540,3 +553,126 @@ embeddings.py
 - Generate embeddings
 
 Each module should perform one task and expose reusable functions.
+
+---
+
+# Day 3 - FAISS Vector Store
+
+## Objective
+
+Create a searchable vector database from the transcript embeddings.
+
+---
+
+## What is FAISS?
+
+FAISS (Facebook AI Similarity Search) is a library designed to perform fast similarity searches on high-dimensional vectors.
+
+Unlike traditional databases that search using exact values or keywords, FAISS searches by semantic similarity.
+
+---
+
+## Why is FAISS Needed?
+
+Imagine a transcript produces hundreds or even thousands of chunks.
+
+Each chunk becomes an embedding.
+
+Comparing a user's query embedding against every stored embedding one by one would become inefficient as the number of vectors grows.
+
+FAISS creates an optimized index that makes similarity search much faster.
+
+---
+
+## Workflow
+
+Transcript
+
+↓
+
+Chunks
+
+↓
+
+Embeddings
+
+↓
+
+FAISS Index
+
+↓
+
+Similarity Search
+
+---
+
+## Library Used
+
+langchain_community.vectorstores
+
+Class:
+
+FAISS
+
+---
+
+## Method Used
+
+```python
+FAISS.from_texts()
+```
+
+This method:
+
+1. Accepts all transcript chunks.
+2. Generates embeddings using the supplied embedding model.
+3. Builds a FAISS index.
+4. Stores the mapping between vectors and their original text.
+
+---
+
+## Output
+
+Successfully created a FAISS Vector Store.
+
+Indexed Chunks:
+
+21
+
+---
+
+## Key Learning
+
+FAISS does not understand text.
+
+It only understands vectors.
+
+When a user asks a question:
+
+Question
+
+↓
+
+Embedding
+
+↓
+
+FAISS searches for the closest vectors
+
+↓
+
+Returns the corresponding text chunks
+
+↓
+
+Gemini generates the final answer.
+
+---
+
+## Important Interview Point
+
+FAISS is not a Large Language Model.
+
+It is a vector similarity search library.
+
+Its responsibility is to retrieve the most relevant information, not generate answers.
