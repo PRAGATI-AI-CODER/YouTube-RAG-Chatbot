@@ -57,3 +57,25 @@
 - RAG Pipeline
 - Streamlit UI
 - Deployment
+
+
+## Version 0.4 - Retriever
+
+### Added
+
+- Implemented semantic retriever using FAISS
+- Configured similarity search
+- Set `k = 3` to retrieve the top 3 relevant chunks
+- Successfully retrieved relevant transcript chunks based on user queries
+
+### Learned
+
+- Difference between retrieval and generation
+- Why only the most relevant chunks are sent to the LLM
+- How semantic retrieval works using embeddings and FAISS
+- Importance of choosing an appropriate value for `k`
+
+### Next
+
+- Connect Retriever with Gemini
+- Build the complete RAG pipeline

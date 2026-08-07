@@ -676,3 +676,45 @@ FAISS is not a Large Language Model.
 It is a vector similarity search library.
 
 Its responsibility is to retrieve the most relevant information, not generate answers.
+
+# Day 3 - Retriever
+
+## Objective
+
+Retrieve the most relevant transcript chunks based on a user's question.
+
+---
+
+## What is a Retriever?
+
+A retriever searches the vector database and returns the most semantically similar chunks.
+
+It does not generate answers.
+
+---
+
+## Method Used
+
+vector_store.as_retriever()
+
+---
+
+## Search Type
+
+similarity
+
+---
+
+## Search Parameter
+
+k = 3
+
+Only the three most relevant chunks are returned.
+
+---
+
+## Learning
+
+The Retriever performs semantic search using vector similarity.
+
+The retrieved chunks are later passed to the LLM for answer generation.
