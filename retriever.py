@@ -1,4 +1,5 @@
 from vector_store import create_vector_store
+from llm import generate_answer
 
 
 def get_retriever(url):
@@ -16,22 +17,35 @@ def get_retriever(url):
     return retriever
 
 
+def ask_question(url, question):
+    """
+    Retrieve relevant chunks and generate an answer using Gemini.
+    """
+
+    retriever = get_retriever(url)
+
+    documents = retriever.invoke(question)
+
+    context = "\n\n".join(
+        document.page_content
+        for document in documents
+    )
+
+    answer = generate_answer(
+        context=context,
+        question=question
+    )
+
+    return answer
+
+
 if __name__ == "__main__":
 
     url = input("Enter YouTube URL: ")
 
-    retriever = get_retriever(url)
+    question = input("Ask a question: ")
 
-    query = input("\nAsk a question: ")
+    answer = ask_question(url, question)
 
-    results = retriever.invoke(query)
-
-    print("\nTop Retrieved Chunks:\n")
-
-    for i, doc in enumerate(results):
-
-        print("=" * 80)
-        print(f"Chunk {i+1}")
-        print("=" * 80)
-        print(doc.page_content)
-        print()
+    print("\nAnswer:")
+    print(answer)

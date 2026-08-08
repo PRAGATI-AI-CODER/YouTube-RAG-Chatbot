@@ -718,3 +718,183 @@ Only the three most relevant chunks are returned.
 The Retriever performs semantic search using vector similarity.
 
 The retrieved chunks are later passed to the LLM for answer generation.
+
+---
+
+# Day 4 - LLM Generation
+
+## Objective
+
+Use Gemini to generate a natural-language answer from retrieved context.
+
+## Model Used
+
+Gemini 3.5 Flash
+
+## Implementation
+
+The `llm.py` module accepts:
+
+- Context
+- User question
+
+It sends both to Gemini and returns a generated answer.
+
+## Prompt Strategy
+
+The model is instructed to:
+
+- Answer using only the provided context.
+- Avoid making up information.
+- Clearly state when the answer cannot be found in the provided context.
+
+## Testing
+
+Test Question:
+
+Why was the server called 764?
+
+Test Context:
+
+764 was a Discord server created by Bradley.
+It was named 764 because 764 was the ZIP code of the area where Bradley lived.
+
+Result:
+
+The server was named 764 because 764 was the ZIP code of the area where Bradley lived.
+
+## Key Learning
+
+The LLM is responsible for generation, not retrieval.
+
+The Retriever finds relevant information, while the LLM uses that information to formulate the final answer.
+
+---
+
+# Day 4 - Complete RAG Pipeline
+
+## Objective
+
+Connect the Retriever with Gemini to create a complete Retrieval-Augmented Generation pipeline.
+
+## Complete Workflow
+
+YouTube URL
+
+↓
+
+Transcript Extraction
+
+↓
+
+Text Chunking
+
+↓
+
+Gemini Embeddings
+
+↓
+
+FAISS Vector Store
+
+↓
+
+Semantic Retriever
+
+↓
+
+Top 3 Relevant Chunks
+
+↓
+
+Context Construction
+
+↓
+
+Gemini 3.5 Flash
+
+↓
+
+Final Answer
+
+---
+
+## How the Pipeline Works
+
+1. The user provides a YouTube URL.
+2. The transcript is extracted from the video.
+3. The transcript is divided into smaller chunks.
+4. Each chunk is converted into a vector embedding.
+5. FAISS indexes the embeddings.
+6. The user's question is passed to the retriever.
+7. The retriever performs semantic similarity search.
+8. The top 3 relevant chunks are selected.
+9. The selected chunks are combined into a context.
+10. The context and question are sent to Gemini.
+11. Gemini generates a natural-language answer based on the context.
+
+---
+
+## RAG Principle
+
+Retrieval-Augmented Generation combines:
+
+### Retrieval
+
+Finding relevant information from an external knowledge source.
+
+### Augmentation
+
+Providing the retrieved information to the language model as context.
+
+### Generation
+
+Using the language model to generate a natural-language response.
+
+---
+
+## Testing
+
+### Test 1 - Answerable Question
+
+Question:
+
+Why was the server called 764?
+
+Result:
+
+The system successfully generated an answer using the retrieved transcript context.
+
+---
+
+### Test 2 - Unanswerable Question
+
+Question:
+
+What is the capital of France?
+
+Result:
+
+The system responded:
+
+"I could not find the answer in the provided video transcript."
+
+This confirmed that the current prompt instructs the LLM not to answer questions when the required information is unavailable in the provided context.
+
+---
+
+## Key Learning
+
+The Retriever and LLM have different responsibilities.
+
+Retriever:
+
+- Finds relevant information.
+- Does not generate answers.
+
+LLM:
+
+- Receives the retrieved context.
+- Generates the final natural-language response.
+
+Together they form the core RAG pipeline.

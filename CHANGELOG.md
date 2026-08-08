@@ -79,3 +79,60 @@
 
 - Connect Retriever with Gemini
 - Build the complete RAG pipeline
+
+
+---
+
+## Version 0.5 - Gemini Generation
+
+### Added
+
+- Implemented Gemini-based answer generation
+- Created `generate_answer()` function
+- Added context-aware prompting
+- Added protection against unsupported answers
+- Successfully tested Gemini 3.5 Flash
+
+### Learned
+
+- Difference between retrieval and generation
+- How retrieved context is passed to an LLM
+- How prompt instructions can restrict the LLM to provided context
+- How the LLM converts retrieved information into a natural-language answer
+
+### Next
+
+- Connect Retriever with Gemini
+- Build the complete RAG pipeline
+
+---
+
+## Version 0.5 - Complete RAG Pipeline
+
+### Added
+
+- Connected FAISS Retriever with Gemini
+- Implemented context construction from retrieved documents
+- Integrated retrieved context with Gemini generation
+- Built complete Retrieval-Augmented Generation pipeline
+- Added context-grounded answer generation
+
+### Testing
+
+- Tested answerable questions
+- Tested questions whose answers were not present in the transcript
+- Verified that the system can respond when information is unavailable
+
+### Learned
+
+- Complete RAG workflow
+- Difference between retrieval, augmentation, and generation
+- How retrieved documents become LLM context
+- Importance of context-grounded generation
+
+### Next
+
+- Improve application architecture
+- Build user-facing interface
+- Add persistent vector store
+- Improve error handling
