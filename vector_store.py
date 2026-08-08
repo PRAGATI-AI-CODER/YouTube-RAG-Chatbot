@@ -9,32 +9,56 @@ from chunking import get_chunks
 load_dotenv()
 
 
-def create_vector_store(url):
+VECTOR_STORE_DIR = "vector_stores"
+
+
+def get_embedding_model():
     """
-    Creates a FAISS vector database from transcript chunks.
+    Create the Gemini embedding model.
+    """
+
+    return GoogleGenerativeAIEmbeddings(
+        model="models/gemini-embedding-001",
+        google_api_key=os.getenv("GOOGLE_API_KEY")
+    )
+
+
+def create_vector_store(url, video_id):
+    """
+    Create and save a FAISS vector store from transcript chunks.
     """
 
     chunks = get_chunks(url)
 
-    embedding_model = GoogleGenerativeAIEmbeddings(
-        model="models/gemini-embedding-001",
-        google_api_key=os.getenv("GOOGLE_API_KEY")
-    )
+    embedding_model = get_embedding_model()
 
     vector_store = FAISS.from_texts(
         texts=chunks,
         embedding=embedding_model
     )
 
+    save_path = os.path.join(VECTOR_STORE_DIR, video_id)
+
+    os.makedirs(save_path, exist_ok=True)
+
+    vector_store.save_local(save_path)
+
     return vector_store
 
 
-if __name__ == "__main__":
+def load_vector_store(video_id):
+    """
+    Load an existing FAISS vector store.
+    """
 
-    url = input("Enter YouTube URL: ")
+    embedding_model = get_embedding_model()
 
-    vector_store = create_vector_store(url)
+    save_path = os.path.join(VECTOR_STORE_DIR, video_id)
 
-    print("\n✅ Vector Store Created Successfully!")
+    vector_store = FAISS.load_local(
+        save_path,
+        embedding_model,
+        allow_dangerous_deserialization=True
+    )
 
-    print(f"Indexed Chunks : {vector_store.index.ntotal}")
+    return vector_store

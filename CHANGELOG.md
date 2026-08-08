@@ -161,3 +161,32 @@ The application now separates:
 - Application orchestration
 - Semantic retrieval
 - LLM generation
+
+---
+
+## Version 0.7 - Persistent FAISS Vector Store
+
+### Added
+
+- Persistent local FAISS vector stores
+- YouTube video ID-based vector store identification
+- Automatic vector store saving
+- Automatic vector store loading
+- Reusable Gemini embedding model configuration
+
+### Changed
+
+- Retriever now checks for an existing vector store before creating a new one
+- Existing vector stores are loaded instead of rebuilding embeddings
+- Added `vector_stores/` to `.gitignore`
+
+### Testing
+
+- Verified creation of a new vector store
+- Verified saved FAISS files
+- Verified loading of an existing vector store
+- Verified retrieval and Gemini generation after loading
+
+### Performance Improvement
+
+Repeated questions for the same video no longer require transcript processing, embedding generation, or FAISS reconstruction.

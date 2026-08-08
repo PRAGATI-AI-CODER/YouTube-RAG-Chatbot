@@ -992,3 +992,111 @@ The application responded:
 Separating retrieval, generation, and orchestration makes the application easier to understand, maintain, test, and extend.
 
 The application now follows a modular architecture rather than placing the complete workflow inside a single file.
+
+---
+
+# Milestone 7 - Persistent FAISS Vector Store
+
+## Objective
+
+Improve the RAG pipeline by persisting FAISS vector stores locally so that embeddings and vector indexes do not need to be regenerated for every question.
+
+## Previous Behavior
+
+Before persistence, every question caused the application to:
+
+1. Extract the YouTube transcript
+2. Split the transcript into chunks
+3. Generate embeddings
+4. Create a FAISS vector store
+5. Perform retrieval
+6. Generate the answer
+
+This was inefficient when multiple questions were asked about the same video.
+
+## New Behavior
+
+The application now checks whether a FAISS vector store already exists for the YouTube video.
+
+### First Run
+
+YouTube URL
+↓
+Extract Video ID
+↓
+Check for existing FAISS
+↓
+Not Found
+↓
+Create Transcript Chunks
+↓
+Generate Embeddings
+↓
+Create FAISS Vector Store
+↓
+Save Vector Store Locally
+↓
+Retrieve
+↓
+Generate Answer
+
+### Subsequent Runs
+
+YouTube URL
+↓
+Extract Video ID
+↓
+Check for existing FAISS
+↓
+Found
+↓
+Load Existing Vector Store
+↓
+Retrieve
+↓
+Generate Answer
+
+## Video-Based Storage
+
+The YouTube video ID is used to identify the vector store.
+
+Example:
+
+Video ID:
+
+s2WiFAgAk6w
+
+Storage:
+
+vector_stores/s2WiFAgAk6w/
+
+The saved FAISS store contains:
+
+- index.faiss
+- index.pkl
+
+## Git Configuration
+
+The `vector_stores/` directory was added to `.gitignore`.
+
+Vector stores are generated local data and are therefore not committed to GitHub.
+
+## Testing
+
+### First Run
+
+The application created a new vector store for the video.
+
+### Second Run
+
+The application displayed:
+
+"Loading existing vector store..."
+
+The application then successfully retrieved the relevant context and generated an answer.
+
+## Key Learning
+
+Persistent vector stores prevent repeated embedding generation and FAISS construction for the same video.
+
+This improves efficiency when multiple questions are asked about the same YouTube video.
