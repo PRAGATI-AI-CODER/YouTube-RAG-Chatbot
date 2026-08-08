@@ -1100,3 +1100,81 @@ The application then successfully retrieved the relevant context and generated a
 Persistent vector stores prevent repeated embedding generation and FAISS construction for the same video.
 
 This improves efficiency when multiple questions are asked about the same YouTube video.
+
+---
+
+# Milestone 8 - Error Handling and Input Validation
+
+## Objective
+
+Improve the reliability and user experience of the RAG application by handling common input, transcript, configuration, and runtime errors gracefully.
+
+## Implemented Validation
+
+### Empty YouTube URL
+
+The application detects an empty URL before starting the RAG pipeline.
+
+Error:
+
+"❌ Error: YouTube URL cannot be empty."
+
+### Empty Question
+
+The application detects an empty question before performing retrieval.
+
+Error:
+
+"❌ Error: Question cannot be empty."
+
+### Invalid YouTube URL
+
+The application validates the YouTube URL and attempts to extract the video ID.
+
+Error:
+
+"❌ Error: Invalid YouTube URL. Could not extract video ID."
+
+### Transcript Unavailable
+
+The application specifically handles cases where YouTube subtitles are disabled.
+
+Error:
+
+"❌ Error: Transcript unavailable: subtitles are disabled for this video."
+
+It also handles cases where no supported Hindi or English transcript is found.
+
+### API Key Validation
+
+The application checks whether `GOOGLE_API_KEY` is configured before starting the RAG pipeline.
+
+If the key is missing, the application provides a configuration error instead of allowing the API library to fail unexpectedly.
+
+### Unexpected Errors
+
+Unexpected exceptions are caught at the application level and converted into a user-friendly fallback message rather than displaying a Python traceback.
+
+## Testing
+
+The following cases were tested successfully:
+
+- Empty URL
+- Empty question
+- Invalid YouTube URL
+- Video with subtitles disabled
+- Existing FAISS vector store
+- Normal RAG question
+- API configuration validation
+
+## Key Learning
+
+Errors should be handled at the appropriate layer.
+
+- Application input errors are handled by `app.py`.
+- YouTube and transcript errors are handled by `transcript.py`.
+- Retrieval errors belong to the retrieval layer.
+- LLM/API errors belong to the generation layer.
+- Unexpected errors are caught by the application-level fallback.
+
+This makes the application more reliable and easier to debug.

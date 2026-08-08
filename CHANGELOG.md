@@ -190,3 +190,31 @@ The application now separates:
 ### Performance Improvement
 
 Repeated questions for the same video no longer require transcript processing, embedding generation, or FAISS reconstruction.
+
+---
+
+## Version 0.8 - Error Handling and Input Validation
+
+### Added
+
+- Empty YouTube URL validation
+- Empty question validation
+- YouTube URL validation
+- Transcript availability error handling
+- Subtitles-disabled error handling
+- Gemini API key configuration validation
+- User-friendly fallback for unexpected errors
+
+### Changed
+
+- Improved transcript exception handling
+- Replaced raw runtime errors with user-friendly messages
+- Prevented unnecessary processing when required input is missing
+
+### Testing
+
+- Tested empty inputs
+- Tested invalid YouTube URL
+- Tested video with disabled subtitles
+- Tested normal RAG workflow after error-handling changes
+- Verified existing FAISS stores continue to load correctly
