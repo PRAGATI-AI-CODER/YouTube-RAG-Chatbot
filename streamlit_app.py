@@ -23,6 +23,22 @@ if "messages" not in st.session_state:
     st.session_state.messages = []
 
 
+# ---------- Helper Functions ----------
+
+def clear_chat():
+    """Clear the current conversation."""
+
+    st.session_state.messages = []
+
+
+def load_new_video():
+    """Reset the current video and conversation."""
+
+    st.session_state.retriever = None
+    st.session_state.loaded_url = None
+    st.session_state.messages = []
+
+
 # ---------- Custom Styling ----------
 
 st.markdown(
@@ -40,24 +56,6 @@ st.markdown(
             color: #9ca3af;
             font-size: 1.05rem;
             margin-bottom: 2rem;
-        }
-
-        .answer-box {
-            padding: 1.2rem;
-            border-radius: 12px;
-            border: 1px solid #d1d5db;
-            background-color: #f8fafc;
-            color: #111827;
-            margin-top: 1rem;
-            line-height: 1.7;
-        }
-
-        .answer-box p {
-            color: #111827;
-        }
-
-        .answer-box li {
-            color: #111827;
         }
 
         .footer {
@@ -113,7 +111,9 @@ if load_button:
 
     else:
 
-        with st.spinner("Loading video and preparing the knowledge base..."):
+        with st.spinner(
+            "Loading video and preparing the knowledge base..."
+        ):
 
             try:
 
@@ -123,8 +123,6 @@ if load_button:
 
                 st.session_state.retriever = retriever
                 st.session_state.loaded_url = youtube_url.strip()
-
-                # Clear previous conversation when a new video is loaded.
                 st.session_state.messages = []
 
                 st.success(
@@ -136,12 +134,9 @@ if load_button:
 
                 st.error(str(error))
 
-            except Exception:
+            except RuntimeError as error:
 
-                st.error(
-                    "Something went wrong while loading the video. "
-                    "Please check the URL and try again."
-                )
+                st.error(str(error))
 
 
 # ---------- Loaded Video Status ----------
@@ -151,6 +146,26 @@ if st.session_state.loaded_url:
     st.info(
         f"Video ready: {st.session_state.loaded_url}"
     )
+
+    # ---------- Chat Controls ----------
+
+    control_col1, control_col2 = st.columns(2)
+
+    with control_col1:
+
+        st.button(
+            "🗑️ Clear Chat",
+            use_container_width=True,
+            on_click=clear_chat,
+        )
+
+    with control_col2:
+
+        st.button(
+            "🔄 Load New Video",
+            use_container_width=True,
+            on_click=load_new_video,
+        )
 
     st.divider()
 
@@ -184,7 +199,6 @@ if st.session_state.retriever:
 
         else:
 
-            # Display user question immediately.
             st.session_state.messages.append(
                 {
                     "role": "user",
@@ -196,7 +210,6 @@ if st.session_state.retriever:
 
                 st.markdown(question)
 
-            # Generate answer.
             with st.chat_message("assistant"):
 
                 with st.spinner("Finding the answer..."):
@@ -230,12 +243,9 @@ if st.session_state.retriever:
 
                         st.error(str(error))
 
-                    except Exception:
+                    except RuntimeError as error:
 
-                        st.error(
-                            "Something went wrong while generating "
-                            "the answer. Please try again."
-                        )
+                        st.error(str(error))
 
 
 # ---------- Footer ----------

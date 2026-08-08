@@ -1,4 +1,5 @@
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+
 from transcript import get_transcript
 
 
@@ -11,7 +12,7 @@ def get_chunks(url):
 
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=1000,
-        chunk_overlap=200
+        chunk_overlap=200,
     )
 
     chunks = text_splitter.split_text(text)
@@ -20,6 +21,7 @@ def get_chunks(url):
 
 
 if __name__ == "__main__":
+
     url = input("Enter YouTube URL: ")
 
     chunks = get_chunks(url)
@@ -27,8 +29,9 @@ if __name__ == "__main__":
     print(f"\nTotal Chunks: {len(chunks)}\n")
 
     for i, chunk in enumerate(chunks[:3]):
+
         print("=" * 80)
-        print(f"Chunk {i+1}")
+        print(f"Chunk {i + 1}")
         print("=" * 80)
         print(chunk)
         print()

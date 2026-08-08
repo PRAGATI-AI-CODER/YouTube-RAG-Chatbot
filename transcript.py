@@ -1,9 +1,10 @@
+from urllib.parse import parse_qs, urlparse
+
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api._errors import (
     NoTranscriptFound,
     TranscriptsDisabled,
 )
-from urllib.parse import urlparse, parse_qs
 
 
 def extract_video_id(url):
@@ -32,7 +33,7 @@ def get_transcript(url):
     try:
         transcript = YouTubeTranscriptApi().fetch(
             video_id,
-            languages=["hi", "en"]
+            languages=["hi", "en"],
         )
 
         return " ".join(
