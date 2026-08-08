@@ -41,18 +41,3 @@ Answer:
         return response.content[0]["text"]
 
     return response.content
-
-
-if __name__ == "__main__":
-
-    context = """
-    764 was a Discord server created by Bradley.
-    It was named 764 because 764 was the ZIP code of the area where Bradley lived.
-    """
-
-    question = "Why was the server called 764?"
-
-    answer = generate_answer(context, question)
-
-    print("\nAnswer:")
-    print(answer)

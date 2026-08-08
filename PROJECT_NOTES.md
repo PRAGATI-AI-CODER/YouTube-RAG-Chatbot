@@ -898,3 +898,97 @@ LLM:
 - Generates the final natural-language response.
 
 Together they form the core RAG pipeline.
+
+---
+
+# Milestone 6 - Clean Application Architecture
+
+## Objective
+
+Refactor the RAG application so that each module has a clear and separate responsibility.
+
+## Architecture
+
+### app.py
+
+Acts as the main orchestrator.
+
+Responsibilities:
+
+- Accept YouTube URL from the user
+- Accept the user's question
+- Request relevant context from the retriever
+- Send the context and question to the LLM
+- Display the final answer
+
+### retriever.py
+
+Responsible only for retrieval.
+
+Responsibilities:
+
+- Create the FAISS retriever
+- Perform semantic similarity search
+- Retrieve the top 3 relevant transcript chunks
+- Combine the retrieved chunks into context
+
+### llm.py
+
+Responsible only for generation.
+
+Responsibilities:
+
+- Receive retrieved context and user question
+- Construct the prompt
+- Send the prompt to Gemini
+- Return the generated answer
+
+## Refactored Flow
+
+User Input
+↓
+app.py
+↓
+retriever.py
+↓
+FAISS
+↓
+Top 3 Relevant Chunks
+↓
+Context
+↓
+llm.py
+↓
+Gemini 3.5 Flash
+↓
+Final Answer
+
+## Testing
+
+### Test 1 - Answerable Question
+
+Question:
+
+What is 764?
+
+Result:
+
+The application successfully retrieved relevant transcript context and generated a contextual answer.
+
+### Test 2 - Out-of-Context Question
+
+Question:
+
+What is the capital of France?
+
+Result:
+
+The application responded:
+
+"I could not find the answer in the provided video transcript."
+
+## Key Learning
+
+Separating retrieval, generation, and orchestration makes the application easier to understand, maintain, test, and extend.
+
+The application now follows a modular architecture rather than placing the complete workflow inside a single file.

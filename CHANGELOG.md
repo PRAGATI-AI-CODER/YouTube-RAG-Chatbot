@@ -136,3 +136,28 @@
 - Build user-facing interface
 - Add persistent vector store
 - Improve error handling
+
+---
+
+## Version 0.6 - Clean Application Architecture
+
+### Changed
+
+- Refactored `retriever.py` to handle retrieval only
+- Refactored `llm.py` to handle generation only
+- Converted `app.py` into the main RAG pipeline orchestrator
+- Removed duplicate generation logic from `retriever.py`
+- Removed standalone testing logic from `llm.py`
+
+### Testing
+
+- Verified answerable questions still produce contextual answers
+- Verified out-of-context questions are rejected appropriately
+
+### Architecture
+
+The application now separates:
+
+- Application orchestration
+- Semantic retrieval
+- LLM generation

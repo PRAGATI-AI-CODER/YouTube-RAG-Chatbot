@@ -1,14 +1,32 @@
-import os
-from dotenv import load_dotenv
-from google import genai
+from retriever import retrieve_context
+from llm import generate_answer
 
-load_dotenv()
 
-client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
+def ask_question(url, question):
+    """
+    Complete RAG pipeline.
 
-response = client.models.generate_content(
-    model="models/gemini-3.5-flash",
-    contents="Say hello!"
-)
+    1. Retrieve relevant context.
+    2. Generate an answer using Gemini.
+    """
 
-print(response.text)
+    context = retrieve_context(url, question)
+
+    answer = generate_answer(
+        context=context,
+        question=question
+    )
+
+    return answer
+
+
+if __name__ == "__main__":
+
+    url = input("Enter YouTube URL: ")
+
+    question = input("Ask a question: ")
+
+    answer = ask_question(url, question)
+
+    print("\nAnswer:")
+    print(answer)
