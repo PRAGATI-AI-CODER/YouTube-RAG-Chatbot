@@ -1178,3 +1178,42 @@ Errors should be handled at the appropriate layer.
 - Unexpected errors are caught by the application-level fallback.
 
 This makes the application more reliable and easier to debug.
+
+---
+
+# Milestone 9 - Cloud Deployment and YouTube Transcript Blocking
+
+## Objective
+
+Deploy the completed YouTube RAG Chatbot to Streamlit Cloud and make the application resilient to differences between local and cloud environments.
+
+## Deployment
+
+The Streamlit application was successfully deployed using Streamlit Cloud.
+
+Live application:
+
+https://youtube-ragchat.streamlit.app/
+
+GitHub Repository:
+
+https://github.com/PRAGATI-AI-CODER/YouTube-RAG-Chatbot
+
+The Gemini API key is configured using Streamlit Cloud Secrets instead of being stored in the GitHub repository.
+
+---
+
+## Deployment Dependency Issue
+
+During deployment preparation, the local environment and cloud environment had to be checked separately.
+
+The original `requirements.txt` contained many transitive dependencies. This created unnecessary complexity for cloud deployment.
+
+The dependency file was simplified to the packages directly required by the application and the versions that were tested successfully.
+
+A compatibility issue was also encountered with Starlette.
+
+Original dependency:
+
+```text
+starlette==1.4.0
